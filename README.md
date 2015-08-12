@@ -3,8 +3,13 @@
 <h4>Backend:</h4>
 <ul>
 	<li>Python v2.7.10</li>
-	<li>Flask v0.10.1</li>
 	<li>virtualenv v13.1.0</li>
+	<li>Flask v0.10.1</li>
+	<li>
+		<ul>
+			<li>Flask-RESTful v0.3.4</li>
+		</ul>
+	</li>
 </ul>
 <h4>Frontend:</h4>
 <ul>
