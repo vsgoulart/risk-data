@@ -1,6 +1,6 @@
 from flask import Flask, request, render_template
 from flask_restful import reqparse, Api, Resource
-import subprocess
+import subprocess, json
 
 app = Flask(__name__)
 api = Api(app)
@@ -11,9 +11,11 @@ def index():
 
 class Result(Resource):
     def post(self):
-        p = subprocess.Popen('Rscript test.R', stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        out, err = p.communicate()
-        return {"result": out}, 201
+        #p = subprocess.Popen('Rscript test.R', stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        #out, err = p.communicate()
+        json_data = request.get_json(force=True)
+        print json.dumps(json_data)
+        return {"result": json.dumps(json_data)}, 201
 
 api.add_resource(Result, '/result')
 
