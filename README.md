@@ -5,11 +5,9 @@
 	<li>Python v2.7.10</li>
 	<li>virtualenv v13.1.0</li>
 	<li>Flask v0.10.1</li>
-	<li>
-		<ul>
-			<li>Flask-RESTful v0.3.4</li>
-		</ul>
-	</li>
+	<ul>
+		<li>Flask-RESTful v0.3.4</li>
+	</ul>
 </ul>
 <h4>Frontend:</h4>
 <ul>
