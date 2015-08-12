@@ -3,6 +3,13 @@
 /fonts
 /js
 /venv
+/data
+/output
+/static
 
 risk-data.sublime-project
 risk-data.sublime-workspace
+.RData
+.Rhistory
+_api.py
+test.R
