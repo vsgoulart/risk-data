@@ -16,41 +16,13 @@
 		$(document).ready(function(){
 			$("#submit-btn").click(function(){
 				var data = {};
-				data.rcta8 = $("#rcta8-input").val();
-				data.hfda07 = $("#hfda07-input").val();
-				data.hfda11 = $("#hfda11-input").val();
-				data.hmpa08 = $("#hmpa08-input").val();
-				data.afia7 = $("#afia7-input").val();
-				data.claa2 = $("#claa2-input").val();
-				data.diea133 = $("#diea133-input").val();
-				data.a_imc1 = $("#a_imc1-input").val();
-				data.a_imc2 = $("#a_imc2-input").val();
-				data.a_cint = $("#a_cint-input").val();
-				data.a_rcq = $("#a_rcq-input").val();
-				data.a_sitconj = $("#a_sitconj-input").val();
-				data.a_escolar = $("#a_escolar-input").val();
-				data.a_gidade = $("#a_gidade-input").val();
-				data.a_thas2 = $("#a_thas2-input").val();
-				data.a_has2 = $("#a_has2-input").val();
-				data.a_medanthipert = $("#a_medanthipert-input").val();
-				data.a_rendapercapita = $("#a_rendapercapita-input").val();
-				data.a_fumante = $("#a_fumante-input").val();
-				data.a_volalc = $("#a_volalc-input").val();
-				data.a_bebexcessivo = $("#a_bebexcessivo-input").val();
-				data.a_binge = $("#a_binge-input").val();
-				data.a_ativfisica = $("#a_ativfisica-input").val();
-				data.a_consdiaverduras = $("#a_consdiaverduras-input").val();
-				data.a_consdiafrutas = $("#a_consdiafrutas-input").val();
-				data.a_sintsono = $("#a_sintsono-input").val();
-				data.a_hipertrig = $("#a_hipertrig-input").val();
-				data.a_medoutahip = $("#a_medoutahip-input").val();
-				data.a_medredlip = $("#a_medredlip-input").val();
-				data.a_sfmiprem = $("#a_sfmiprem-input").val();
-				data.a_sfstkprem = $("#a_sfstkprem-input").val();
-				data.a_sfrevprem = $("#a_sfrevprem-input").val();
-				data.a_sfhfprem = $("#a_sfhfprem-input").val();
-				data.a_cons_est_nacl = $("#a_cons_est_nacl-input").val();
-				data.a_dm = $("#a_dm-input").val();
+
+				$(".form-group input").each(function(){
+					var inputID = $(this).attr("id").split("-")[0];
+					var inputValue = $(this).val();
+					data[inputID] = inputValue;
+				});
+
 
 				$.ajax({
 					type: "POST",
