@@ -1,6 +1,6 @@
 from flask import Flask, request, render_template
 from flask_restful import reqparse, Api, Resource
-import subprocess, json
+import subprocess, json, csv
 
 app = Flask(__name__)
 api = Api(app)
@@ -14,7 +14,12 @@ class Result(Resource):
         #p = subprocess.Popen('Rscript test.R', stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         #out, err = p.communicate()
         json_data = request.get_json(force=True)
-        print json.dumps(json_data)
+
+        with open('user-data.csv', 'wb') as data_file:
+        	w = csv.DictWriter(data_file, json_data.keys())
+        	w.writeheader()
+        	w.writerow(json_data)
+        
         return {"result": json.dumps(json_data)}, 201
 
 api.add_resource(Result, '/result')
