@@ -18,11 +18,10 @@
 				var data = {};
 
 				$(".form-group input").each(function(){
-					var inputID = $(this).attr("id").split("-")[0];
+					var inputID = $(this).attr("id").split("-")[0]; //Divide ID do input[type=text] em dois e pega a primeira parte antes do do hífen
 					var inputValue = $(this).val();
 					data[inputID] = inputValue;
 				});
-
 
 				$.ajax({
 					type: "POST",
