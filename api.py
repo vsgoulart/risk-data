@@ -1,6 +1,7 @@
 from flask import Flask, request, render_template
 from flask_restful import reqparse, Api, Resource
-import subprocess, json, csv
+from subprocess import Popen, PIPE, STDOUT
+import json, csv
 
 app = Flask(__name__)
 api = Api(app)
@@ -11,16 +12,16 @@ def index():
 
 class Result(Resource):
     def post(self):
-        #p = subprocess.Popen('Rscript test.R', stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        #out, err = p.communicate()
-        json_data = request.get_json(force=True)
-
-        with open('user-data.csv', 'wb') as data_file:
+        """with open('user-data.csv', 'wb') as data_file:
         	w = csv.DictWriter(data_file, json_data.keys())
         	w.writeheader()
-        	w.writerow(json_data)
+        	w.writerow(json_data)"""
+
+        json_data = request.get_json(force=True)
+        p = Popen('Rscript test.R', stdout=PIPE, stderr=PIPE, stdin=PIPE)
+        out, err = p.communicate(input = json.dumps(json_data))
         
-        return {"result": json.dumps(json_data)}, 201
+        return {"data": json.dumps(json_data), "result": out}, 201
 
 api.add_resource(Result, '/result')
 
