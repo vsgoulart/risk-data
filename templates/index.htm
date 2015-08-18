@@ -17,7 +17,7 @@
 			$("#submit-btn").click(function(){
 				var data = {};
 
-				$(".form-group input").each(function(){
+				$(".form-group input[type=text]").each(function(){
 					var inputID = $(this).attr("id").split("-")[0]; //Divide ID do input[type=text] em dois e pega a primeira parte antes do do hífen
 					var inputValue = $(this).val();
 					data[inputID] = inputValue;
@@ -31,7 +31,10 @@
 					data: JSON.stringify(data),
 					success: function(e){
 						console.log("success");
-						console.log(e.result);
+						console.log(e);
+						$("#container-form").hide();
+						$("#container-result-textarea").show();
+						$("#result-textarea").val(e.result);
 					},
 					failure: function(e){
 						console.log("fail");
@@ -63,7 +66,7 @@
 		</div>
 	</nav>
 	<div class="container-fluid">
-		<div class="row">
+		<div class="row" id="container-form">
 			<div class="col-md-4"></div>
 			<div class="col-md-4">
 				<form>
@@ -212,6 +215,13 @@
 						<button type="button" class="btn btn-default">Limpar</button>
 					</div>
 				</form>
+			</div>
+			<div class="col-md-4"></div>
+		</div>
+		<div class="row" id="container-result-textarea" style="display: none;">
+			<div class="col-md-4"></div>
+			<div class="col-md-4">
+				<textarea class="form-control" rows="27" id="result-textarea"></textarea>
 			</div>
 			<div class="col-md-4"></div>
 		</div>
