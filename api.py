@@ -19,9 +19,9 @@ class Result(Resource):
 
         json_data = request.get_json(force=True)
         p = Popen('Rscript test.R', stdout=PIPE, stderr=PIPE, stdin=PIPE)
-        out, err = p.communicate(input = json.dumps(json_data))
+        out, err = p.communicate(input = json.dumps(json_data) + "\n")
         
-        return {"data": json.dumps(json_data), "result": out}, 201
+        return {"data": json.dumps(json_data), "result": out.decode('latin-1').encode("utf-8"), "err": err.decode('latin-1').encode("utf-8")}, 201
 
 api.add_resource(Result, '/result')
 
