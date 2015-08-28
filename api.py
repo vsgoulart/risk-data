@@ -18,7 +18,7 @@ class Result(Resource):
         	w.writerow(json_data)"""
 
         json_data = request.get_json(force=True)
-        p = Popen('Rscript test.R', stdout=PIPE, stderr=PIPE, stdin=PIPE)
+        p = Popen('Rscript run.models.v2.R', stdout=PIPE, stderr=PIPE, stdin=PIPE)
         out, err = p.communicate(input = json.dumps(json_data) + "\n")
         
         return {"data": json.dumps(json_data), "result": out.decode('latin-1').encode("utf-8"), "err": err.decode('latin-1').encode("utf-8")}, 201
