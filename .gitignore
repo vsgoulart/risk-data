@@ -4,7 +4,6 @@
 /js
 /venv
 /data
-/output
 /static
 
 risk-data.sublime-project
@@ -13,3 +12,5 @@ risk-data.sublime-workspace
 .Rhistory
 _api.py
 test.R
+/_R
+/_output
