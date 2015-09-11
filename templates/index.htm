@@ -35,7 +35,7 @@
 			$("#submit-btn").click(function(){
 				var data = {};
 
-				$(".form-group input[type=text]").each(function(){
+				$(".form-group input[type=text], .form-group select").each(function(){
 					var inputID = $(this).attr("id").split("-")[0]; //Divide ID do input[type=text] em dois e pega a primeira parte antes do do hífen
 					var inputValue = $(this).val();
 					data[inputID] = inputValue;
@@ -64,7 +64,17 @@
 		var createFields = function(fieldsArray){
 			if(fieldsArray.length > 0){
 				fieldsArray.forEach(function(field){
-					$("form").prepend('<div class="form-group"><label for="'+ field.id +'-input">'+ field.name +'</label><input type="text" class="form-control" id="'+ field.id +'-input" placeholder="'+ field.name +'"></div>');
+					switch(field.type){
+						case "text":
+							$("form").prepend('<div class="form-group"><label for="'+ field.id +'-input">'+ field.name +'</label><input type="text" class="form-control" id="'+ field.id +'-input" placeholder="'+ field.name +'"></div>');
+							break;
+						case "select":
+							$("form").prepend('<div class="form-group"><label for="'+ field.id +'-input">'+ field.name +'</label><select class="form-control" id="'+ field.id +'-input"></select></div>');
+							field.values.forEach(function(value){
+								$("#" + field.id + "-input").append("<option value='" + value.value + "'>" + value.mask + "</option>");
+							});
+							break;
+					}
 				});
 			}else{
 				$("#button-container").hide();
@@ -101,7 +111,7 @@
 				<form>
 					<div class="form-group" id="button-container">
 						<button type="button" class="btn btn-default" id="submit-btn">Calcular</button>
-						<button type="button" class="btn btn-default">Limpar</button>
+						<button type="reset" class="btn btn-default">Limpar</button>
 					</div>
 				</form>
 			</div>
