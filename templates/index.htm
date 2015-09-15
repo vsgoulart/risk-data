@@ -16,7 +16,7 @@
 		$(document).ready(function(){
 			$.ajax({
 				type: "GET",
-				url: "http://127.0.0.1:5000/fields",
+				url: "/fields",
 				contentType: 'application/json',
 				dataType: 'json',
 				success: function(e){
@@ -43,7 +43,7 @@
 
 				$.ajax({
 					type: "POST",
-					url: "http://127.0.0.1:5000/result",
+					url: "/result",
 					contentType: 'application/json',
 					dataType: 'json',
 					data: JSON.stringify(data),
