@@ -12,13 +12,9 @@ def index():
 
 class Result(Resource):
     def post(self):
-        """with open('user-data.csv', 'wb') as data_file:
-        	w = csv.DictWriter(data_file, json_data.keys())
-        	w.writeheader()
-        	w.writerow(json_data)"""
-
         json_data = request.get_json(force=True)
-        p = Popen('Rscript run.models.v2.R', stdout=PIPE, stderr=PIPE, stdin=PIPE)
+
+        p = Popen('Rscript run.models.v3.R', stdout=PIPE, stderr=PIPE, stdin=PIPE)
         out, err = p.communicate(input = json.dumps(json_data) + "\n")
         
         return {"data": json.dumps(json_data), "result": out.decode('latin-1').encode("utf-8"), "err": err.decode('latin-1').encode("utf-8")}, 201
@@ -33,4 +29,4 @@ api.add_resource(Fields, '/fields')
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(port=80)
