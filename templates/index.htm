@@ -82,7 +82,7 @@
 									radios += '<label class="radio-inline"><input type="radio" name="'+ field.id +'" id="'+ field.id + "-" + count +'" value="'+ value.value +'"> '+ value.mask +'</label>';
 									count++;
 								});
-								$("form").prepend('<div class="form-group"><label for="'+ field.id +'-input">'+ field.name +'</label>'+ radios +'</div>');
+								$("form").prepend('<div class="form-group"><label for="'+ field.id +'-input">'+ field.name +'</label><br>'+ radios +'</div>');
 								break;
 						}
 					}
