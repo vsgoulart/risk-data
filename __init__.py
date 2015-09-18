@@ -17,7 +17,7 @@ class Result(Resource):
         
         path = os.path.join(os.getcwd(), 'run.models.v3.R')
         print path
-        p = Popen('Rscript ' + path, stdout=PIPE, stderr=PIPE, stdin=PIPE)
+        p = Popen('Rscript ' + path, stdout=PIPE, stderr=PIPE, stdin=PIPE, shell=True)
         out, err = p.communicate(input = json.dumps(json_data) + "\n")
         
         return {"data": json.dumps(json_data), "result": out.decode('latin-1').encode("utf-8"), "err": err.decode('latin-1').encode("utf-8")}, 201
