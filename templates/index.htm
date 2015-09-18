@@ -64,7 +64,7 @@
 		var createFields = function(fieldsArray){
 			if(fieldsArray.length > 0){
 				fieldsArray.forEach(function(field){
-					if(field.active = "true"){
+					if(field.active == true){
 						switch(field.type){
 							case "text":
 								$("form").prepend('<div class="form-group"><label for="'+ field.id +'-input">'+ field.name +'</label><input type="text" class="form-control" id="'+ field.id +'-input" placeholder="'+ field.name +'"></div>');
@@ -82,7 +82,7 @@
 									radios += '<label class="radio-inline"><input type="radio" name="'+ field.id +'" id="'+ field.id + "-" + count +'" value="'+ value.value +'"> '+ value.mask +'</label>';
 									count++;
 								});
-								$("form").prepend('<div class="form-group"><p>'+ field.name +'</p>'+ radios +'</div>');
+								$("form").prepend('<div class="form-group"><label for="'+ field.id +'-input">'+ field.name +'</label>'+ radios +'</div>');
 								break;
 						}
 					}
