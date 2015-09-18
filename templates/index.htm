@@ -64,16 +64,27 @@
 		var createFields = function(fieldsArray){
 			if(fieldsArray.length > 0){
 				fieldsArray.forEach(function(field){
-					switch(field.type){
-						case "text":
-							$("form").prepend('<div class="form-group"><label for="'+ field.id +'-input">'+ field.name +'</label><input type="text" class="form-control" id="'+ field.id +'-input" placeholder="'+ field.name +'"></div>');
-							break;
-						case "select":
-							$("form").prepend('<div class="form-group"><label for="'+ field.id +'-input">'+ field.name +'</label><select class="form-control" id="'+ field.id +'-input"></select></div>');
-							field.values.forEach(function(value){
-								$("#" + field.id + "-input").append("<option value='" + value.value + "'>" + value.mask + "</option>");
-							});
-							break;
+					if(field.active = "true"){
+						switch(field.type){
+							case "text":
+								$("form").prepend('<div class="form-group"><label for="'+ field.id +'-input">'+ field.name +'</label><input type="text" class="form-control" id="'+ field.id +'-input" placeholder="'+ field.name +'"></div>');
+								break;
+							case "select":
+								$("form").prepend('<div class="form-group"><label for="'+ field.id +'-input">'+ field.name +'</label><select class="form-control" id="'+ field.id +'-input"></select></div>');
+								field.values.forEach(function(value){
+									$("#" + field.id + "-input").append("<option value='" + value.value + "'>" + value.mask + "</option>");
+								});
+								break;
+							case "radio":
+								var count = 0;
+								var radios = "";
+								field.values.forEach(function(value){
+									radios += '<label class="radio-inline"><input type="radio" name="'+ field.id +'" id="'+ field.id + "-" + count +'" value="'+ value.value +'"> '+ value.mask +'</label>';
+									count++;
+								});
+								$("form").prepend('<div class="form-group"><p>'+ field.name +'</p>'+ radios +'</div>');
+								break;
+						}
 					}
 				});
 			}else{
