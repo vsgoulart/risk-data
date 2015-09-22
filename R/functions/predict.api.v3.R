@@ -1,4 +1,4 @@
-require('caret');
+﻿require('caret');
 validate.input <- function(test) 
 {
   if (all(subset.sem.a_dm %in% names(test))) {
