@@ -57,7 +57,7 @@ scale.test <- function(testing, scale.preProc, train.numeric.names)
 predict.web.glm <- function(test, DEBUG = FALSE)  
 {
   if (!validate.input(test)) { 
-    return ("ERRO: Dados de entrada não passaram na validação. Verificar erro no console."); 
+    return ("ERRO: Dados de entrada nao passaram na validacao. Verificar erro no console."); 
   }
   model <- model.glm;
   test <- scale.test(test, scale.preProc, train.numeric.names);
