@@ -35,7 +35,7 @@
 			$("#submit-btn").click(function(){
 				var data = {};
 
-				$(".form-group input[type=text], .form-group select").each(function(){
+				$(".form-group input[type=text], .form-group select, .form-group input[type=radio]").each(function(){
 					var inputID = $(this).attr("id").split("-")[0]; //Divide ID do input[type=text] em dois e pega a primeira parte antes do do hífen
 					var inputValue = $(this).val();
 					data[inputID] = inputValue;
