@@ -2,7 +2,7 @@
 from flask import Flask, request, render_template
 from flask_restful import reqparse, Api, Resource
 from subprocess import Popen, PIPE, STDOUT
-import json, os
+import json, os, re
 
 app = Flask(__name__)
 api = Api(app)
@@ -19,6 +19,8 @@ class Result(Resource):
         print path
         p = Popen('Rscript ' + path, stdout=PIPE, stderr=PIPE, stdin=PIPE, shell=True)
         out, err = p.communicate(input = json.dumps(json_data) + "\n")
+
+        out = re.search('(a_dm=(true|false))|error', out).group(0)
         
         return {"data": json.dumps(json_data), "result": out.decode('latin-1').encode("utf-8"), "err": err.decode('latin-1').encode("utf-8")}, 201
 
