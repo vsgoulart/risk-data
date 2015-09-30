@@ -13,6 +13,9 @@
 		}
 	</style>
 	<script type="text/javascript">
+		var data = {};
+		var calculatedFields = new Array();
+
 		$(document).ready(function(){
 			$.ajax({
 				type: "GET",
@@ -33,13 +36,20 @@
 
 
 			$("#submit-btn").click(function(){
-				var data = {};
-
 				$(".form-group input[type=text], .form-group select, .form-group input[type=radio]").each(function(){
 					var inputID = $(this).attr("id").split("-")[0]; //Divide ID do input[type=text] em dois e pega a primeira parte antes do do hífen
 					var inputValue = $(this).val();
 					data[inputID] = inputValue;
 				});
+
+				createEvalForCalculatedFields();
+				calculatedFields.forEach(function(field){
+					var inputID = field.id;
+					var inputValue = eval(field.formula);
+					data[inputID] = inputValue;
+				});
+
+				console.log(data);
 
 				$.ajax({
 					type: "POST",
@@ -64,7 +74,7 @@
 		var createFields = function(fieldsArray){
 			if(fieldsArray.length > 0){
 				fieldsArray.forEach(function(field){
-					if(field.active == true){
+					if(field.active){
 						switch(field.type){
 							case "text":
 								$("form").prepend('<div class="form-group"><label for="'+ field.id +'-input">'+ field.name +'</label><input type="text" class="form-control" id="'+ field.id +'-input" placeholder="'+ field.name +'"></div>');
@@ -84,6 +94,9 @@
 								});
 								$("form").prepend('<div class="form-group"><label for="'+ field.id +'-input">'+ field.name +'</label><br>'+ radios +'</div>');
 								break;
+							case "calculated":
+								calculatedFields.push(field);
+								break;
 						}
 					}
 				});
@@ -91,6 +104,15 @@
 				$("#button-container").hide();
 				$("form").prepend("<h1>JSON dos campos vazio</h1>");
 			}
+		}
+
+		var createEvalForCalculatedFields = function(){
+			calculatedFields.forEach(function(field){
+				field.vars.forEach(function(inputVar){
+					field.formula = field.formula.replace(RegExp(inputVar,"g"), $("#" + inputVar + "-input").val());
+					console.log(field.formula);
+				});
+			});
 		}
 	</script>
 </head>
