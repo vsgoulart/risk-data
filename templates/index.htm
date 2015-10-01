@@ -61,8 +61,8 @@
 						console.log("success");
 						console.log(e);
 						$("#container-form").hide();
-						$("#container-result-textarea").show();
-						$("#result-textarea").val(e.result);
+						$("#container-result").show();
+						$("#" + e.result).show();
 					},
 					failure: function(e){
 						console.log("fail");
@@ -150,10 +150,11 @@
 			</div>
 			<div class="col-md-4"></div>
 		</div>
-		<div class="row" id="container-result-textarea" style="display: none;">
+		<div class="row" id="container-result" style="display: none;">
 			<div class="col-md-4"></div>
 			<div class="col-md-4">
-				<textarea class="form-control" rows="27" id="result-textarea"></textarea>
+				<h3 id="a-dm-true" style="display:none;">Você está no grupo de risco de diabetes segundo o nosso modelo</h3>
+				<h3 id="a-dm-false" style="display:none;">Você não está no grupo de risco de diabetes segundo o nosso modelo</h3>
 			</div>
 			<div class="col-md-4"></div>
 		</div>

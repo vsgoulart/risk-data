@@ -21,11 +21,11 @@ pred <- predict.web.glm(server.data,  DEBUG=FALSE);
 
 if(pred == 0)
 {
-  print("a_dm=true");
+  print("a-dm-true");
 }
 else if(pred == 1)
 {
-  print("a_dm=false");
+  print("a-dm-false");
 }
 else
 {
