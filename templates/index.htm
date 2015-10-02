@@ -11,6 +11,8 @@
 		body{
 			padding-top: 65px;
 		}
+
+		.loader{font-size:90px;text-indent:-9999em;overflow:hidden;width:1em;height:1em;border-radius:50%;margin:72px auto;position:relative;-webkit-transform:translateZ(0);-ms-transform:translateZ(0);transform:translateZ(0);-webkit-animation:load6 1.7s infinite ease;animation:load6 1.7s infinite ease}@-webkit-keyframes load6{0%{-webkit-transform:rotate(0);transform:rotate(0);box-shadow:0 -.83em 0 -.4em #000,0 -.83em 0 -.42em #000,0 -.83em 0 -.44em #000,0 -.83em 0 -.46em #000,0 -.83em 0 -.477em #000}5%,95%{box-shadow:0 -.83em 0 -.4em #000,0 -.83em 0 -.42em #000,0 -.83em 0 -.44em #000,0 -.83em 0 -.46em #000,0 -.83em 0 -.477em #000}10%,59%{box-shadow:0 -.83em 0 -.4em #000,-.087em -.825em 0 -.42em #000,-.173em -.812em 0 -.44em #000,-.256em -.789em 0 -.46em #000,-.297em -.775em 0 -.477em #000}20%{box-shadow:0 -.83em 0 -.4em #000,-.338em -.758em 0 -.42em #000,-.555em -.617em 0 -.44em #000,-.671em -.488em 0 -.46em #000,-.749em -.34em 0 -.477em #000}38%{box-shadow:0 -.83em 0 -.4em #000,-.377em -.74em 0 -.42em #000,-.645em -.522em 0 -.44em #000,-.775em -.297em 0 -.46em #000,-.82em -.09em 0 -.477em #000}100%{-webkit-transform:rotate(360deg);transform:rotate(360deg);box-shadow:0 -.83em 0 -.4em #000,0 -.83em 0 -.42em #000,0 -.83em 0 -.44em #000,0 -.83em 0 -.46em #000,0 -.83em 0 -.477em #000}}@keyframes load6{0%{-webkit-transform:rotate(0);transform:rotate(0);box-shadow:0 -.83em 0 -.4em #000,0 -.83em 0 -.42em #000,0 -.83em 0 -.44em #000,0 -.83em 0 -.46em #000,0 -.83em 0 -.477em #000}5%,95%{box-shadow:0 -.83em 0 -.4em #000,0 -.83em 0 -.42em #000,0 -.83em 0 -.44em #000,0 -.83em 0 -.46em #000,0 -.83em 0 -.477em #000}10%,59%{box-shadow:0 -.83em 0 -.4em #000,-.087em -.825em 0 -.42em #000,-.173em -.812em 0 -.44em #000,-.256em -.789em 0 -.46em #000,-.297em -.775em 0 -.477em #000}20%{box-shadow:0 -.83em 0 -.4em #000,-.338em -.758em 0 -.42em #000,-.555em -.617em 0 -.44em #000,-.671em -.488em 0 -.46em #000,-.749em -.34em 0 -.477em #000}38%{box-shadow:0 -.83em 0 -.4em #000,-.377em -.74em 0 -.42em #000,-.645em -.522em 0 -.44em #000,-.775em -.297em 0 -.46em #000,-.82em -.09em 0 -.477em #000}100%{-webkit-transform:rotate(360deg);transform:rotate(360deg);box-shadow:0 -.83em 0 -.4em #000,0 -.83em 0 -.42em #000,0 -.83em 0 -.44em #000,0 -.83em 0 -.46em #000,0 -.83em 0 -.477em #000}}
 	</style>
 	<script type="text/javascript">
 		var data = {};
@@ -36,6 +38,8 @@
 
 
 			$("#submit-btn").click(function(){
+				$("#container-form").hide();
+				$(".loader").show();
 				$(".form-group input[type=text], .form-group select, .form-group input[type=radio]").each(function(){
 					var inputID = $(this).attr("id").split("-")[0]; //Divide ID do input[type=text] em dois e pega a primeira parte antes do do hífen
 					var inputValue = $(this).val();
@@ -60,7 +64,7 @@
 					success: function(e){
 						console.log("success");
 						console.log(e);
-						$("#container-form").hide();
+						$(".loader").hide();
 						$("#container-result").show();
 						$("#" + e.result).show();
 					},
@@ -150,6 +154,7 @@
 			</div>
 			<div class="col-md-4"></div>
 		</div>
+		<div class="loader" style="display: none;">Loading...</div>
 		<div class="row" id="container-result" style="display: none;">
 			<div class="col-md-4"></div>
 			<div class="col-md-4">
