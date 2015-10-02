@@ -81,7 +81,8 @@
 					if(field.active){
 						switch(field.type){
 							case "text":
-								$("form").prepend('<div class="form-group"><label for="'+ field.id +'-input">'+ field.name +'</label><input type="text" class="form-control" id="'+ field.id +'-input" placeholder="'+ field.name +'"></div>');
+								//$("form").prepend('<div class="form-group"><label for="'+ field.id +'-input">'+ field.name +'</label><input type="text" class="form-control" id="'+ field.id +'-input" placeholder="'+ field.name +'"></div>');
+								$("form").prepend('<div class="form-group"><input type="text" class="form-control" id="'+ field.id +'-input" placeholder="'+ field.name +'"></div>');
 								break;
 							case "select":
 								$("form").prepend('<div class="form-group"><label for="'+ field.id +'-input">'+ field.name +'</label><select class="form-control" id="'+ field.id +'-input"></select></div>');
