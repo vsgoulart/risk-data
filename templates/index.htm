@@ -40,17 +40,17 @@
 			$("#submit-btn").click(function(){
 				$("#container-form").hide();
 				$(".loader").show();
-				$(".form-group input[type=text], .form-group select, .form-group input[type=radio]").each(function(){
+				$(".form-group input[type=text], .form-group input[type=number], .form-group select, .form-group input[type=radio]").each(function(){
 					var inputID = $(this).attr("id").split("-")[0]; //Divide ID do input[type=text] em dois e pega a primeira parte antes do do hífen
 					var inputValue = $(this).val().replace(',','.');
-					data[inputID] = inputValue;
+					data[inputID] = inputValue + "";
 				});
 
 				createEvalForCalculatedFields();
 				calculatedFields.forEach(function(field){
 					var inputID = field.id;
 					var inputValue = eval(field.formula);
-					data[inputID] = inputValue;
+					data[inputID] = inputValue + "";
 				});
 
 				console.log(data);
@@ -66,7 +66,7 @@
 						console.log(e);
 						$(".loader").hide();
 						$("#container-result").show();
-						if(e.result == "a-dm-true" ||e.result == "a-dm-false" ||e.result == "error")
+						if(e.result == "a-dm-true" || e.result == "a-dm-false" || e.result == "error")
 							$("#" + e.result).show();
 						else
 							$("#error").show();
@@ -83,9 +83,9 @@
 				fieldsArray.forEach(function(field){
 					if(field.active){
 						switch(field.type){
-							case "text":
+							case "text", "number":
 								//$("form").prepend('<div class="form-group"><label for="'+ field.id +'-input">'+ field.name +'</label><input type="text" class="form-control" id="'+ field.id +'-input" placeholder="'+ field.name +'"></div>');
-								$("form").prepend('<div class="form-group"><input type="text" class="form-control" id="'+ field.id +'-input" placeholder="'+ field.name +'"></div>');
+								$("form").prepend('<div class="form-group"><input type="'+ field.type +'" class="form-control" id="'+ field.id +'-input" placeholder="'+ field.name +'"></div>');
 								break;
 							case "select":
 								$("form").prepend('<div class="form-group"><label for="'+ field.id +'-input">'+ field.name +'</label><select class="form-control" id="'+ field.id +'-input"></select></div>');
