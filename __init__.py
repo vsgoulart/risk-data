@@ -20,7 +20,11 @@ class Result(Resource):
         p = Popen('Rscript ' + path, stdout=PIPE, stderr=PIPE, stdin=PIPE, shell=True)
         out, err = p.communicate(input = json.dumps(json_data) + "\n")
 
-        out = re.search('(a-dm-(true|false))|error', out).group(0)
+        out = re.search('(a-dm-(true|false))|error', out)
+        if out is not None:
+            out = out.group(0)
+        else:
+            out = "error"
         
         return {"data": json.dumps(json_data), "result": out.decode('latin-1').encode("utf-8"), "err": err.decode('latin-1').encode("utf-8")}, 201
 
