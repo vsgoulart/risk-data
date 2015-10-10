@@ -53,6 +53,7 @@
 					var inputValue = $(this).val().replace(',','.');
 					data[inputID] = inputValue + "";
 				});
+				data["a_hipertrig"] = "0";
 
 				createEvalForCalculatedFields();
 				calculatedFields.forEach(function(field){
