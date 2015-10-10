@@ -16,6 +16,11 @@
 			padding-top: 65px;	
 		}
 
+		input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button{
+			-webkit-appearance: none;
+			margin: 0; 
+		}
+
 		.loader{font-size:90px;text-indent:-9999em;overflow:hidden;width:1em;height:1em;border-radius:50%;margin:72px auto;position:relative;-webkit-transform:translateZ(0);-ms-transform:translateZ(0);transform:translateZ(0);-webkit-animation:load6 1.7s infinite ease;animation:load6 1.7s infinite ease}@-webkit-keyframes load6{0%{-webkit-transform:rotate(0);transform:rotate(0);box-shadow:0 -.83em 0 -.4em #000,0 -.83em 0 -.42em #000,0 -.83em 0 -.44em #000,0 -.83em 0 -.46em #000,0 -.83em 0 -.477em #000}5%,95%{box-shadow:0 -.83em 0 -.4em #000,0 -.83em 0 -.42em #000,0 -.83em 0 -.44em #000,0 -.83em 0 -.46em #000,0 -.83em 0 -.477em #000}10%,59%{box-shadow:0 -.83em 0 -.4em #000,-.087em -.825em 0 -.42em #000,-.173em -.812em 0 -.44em #000,-.256em -.789em 0 -.46em #000,-.297em -.775em 0 -.477em #000}20%{box-shadow:0 -.83em 0 -.4em #000,-.338em -.758em 0 -.42em #000,-.555em -.617em 0 -.44em #000,-.671em -.488em 0 -.46em #000,-.749em -.34em 0 -.477em #000}38%{box-shadow:0 -.83em 0 -.4em #000,-.377em -.74em 0 -.42em #000,-.645em -.522em 0 -.44em #000,-.775em -.297em 0 -.46em #000,-.82em -.09em 0 -.477em #000}100%{-webkit-transform:rotate(360deg);transform:rotate(360deg);box-shadow:0 -.83em 0 -.4em #000,0 -.83em 0 -.42em #000,0 -.83em 0 -.44em #000,0 -.83em 0 -.46em #000,0 -.83em 0 -.477em #000}}@keyframes load6{0%{-webkit-transform:rotate(0);transform:rotate(0);box-shadow:0 -.83em 0 -.4em #000,0 -.83em 0 -.42em #000,0 -.83em 0 -.44em #000,0 -.83em 0 -.46em #000,0 -.83em 0 -.477em #000}5%,95%{box-shadow:0 -.83em 0 -.4em #000,0 -.83em 0 -.42em #000,0 -.83em 0 -.44em #000,0 -.83em 0 -.46em #000,0 -.83em 0 -.477em #000}10%,59%{box-shadow:0 -.83em 0 -.4em #000,-.087em -.825em 0 -.42em #000,-.173em -.812em 0 -.44em #000,-.256em -.789em 0 -.46em #000,-.297em -.775em 0 -.477em #000}20%{box-shadow:0 -.83em 0 -.4em #000,-.338em -.758em 0 -.42em #000,-.555em -.617em 0 -.44em #000,-.671em -.488em 0 -.46em #000,-.749em -.34em 0 -.477em #000}38%{box-shadow:0 -.83em 0 -.4em #000,-.377em -.74em 0 -.42em #000,-.645em -.522em 0 -.44em #000,-.775em -.297em 0 -.46em #000,-.82em -.09em 0 -.477em #000}100%{-webkit-transform:rotate(360deg);transform:rotate(360deg);box-shadow:0 -.83em 0 -.4em #000,0 -.83em 0 -.42em #000,0 -.83em 0 -.44em #000,0 -.83em 0 -.46em #000,0 -.83em 0 -.477em #000}}
 	</style>
 	<script type="text/javascript">
@@ -34,19 +39,6 @@
 					fieldsJSON = JSON.parse(e.data);
 					console.log(fieldsJSON);
 					createFields(fieldsJSON.fields);
-					$(".a_ativfisica-div").mouseover(function(){
-						$("#a_ativfisica-tooltip").show();
-					});
-					$(".a_ativfisica-div").mouseleave(function(){
-						$("#a_ativfisica-tooltip").hide();
-					});
-
-					$(".a_bebexcessivo-div").mouseover(function(){
-						$("#a_bebexcessivo-tooltip").show();
-					});
-					$(".a_bebexcessivo-div").mouseleave(function(){
-						$("#a_bebexcessivo-tooltip").hide();
-					});
 				},
 				failure: function(e){
 					console.log("fail");
@@ -99,12 +91,14 @@
 				fieldsArray.forEach(function(field){
 					if(field.active){
 						switch(field.type){
-							case "text", "number":
-								//$("form").prepend('<div class="form-group"><label for="'+ field.id +'-input">'+ field.name +'</label><input type="text" class="form-control" id="'+ field.id +'-input" placeholder="'+ field.name +'"></div>');
-								$("form").prepend('<div class="form-group '+ field.id +'-div"><input type="'+ field.type +'" class="form-control" id="'+ field.id +'-input" placeholder="'+ field.name +'"></div>');
+							case "text":
+								$("form").prepend('<div data-tooltip="'+field.tooltip+'" class="form-group" id="'+ field.id +'-div"><input type="text" class="form-control" id="'+ field.id +'-input" placeholder="'+ field.name +'"></div>');
+								break;
+							case "number":
+								$("form").prepend('<div data-tooltip="'+field.tooltip+'" class="form-group" id="'+ field.id +'-div"><input type="number" step="0.01" min="0" class="form-control" id="'+ field.id +'-input" placeholder="'+ field.name +'"></div>');
 								break;
 							case "select":
-								$("form").prepend('<div class="form-group '+ field.id +'-div"><label for="'+ field.id +'-input">'+ field.name +'</label><select class="form-control" id="'+ field.id +'-input"></select></div>');
+								$("form").prepend('<div data-tooltip="'+field.tooltip+'" class="form-group" id="'+ field.id +'-div"><label for="'+ field.id +'-input">'+ field.name +'</label><select class="form-control" id="'+ field.id +'-input"></select></div>');
 								field.values.forEach(function(value){
 									$("#" + field.id + "-input").append("<option value='" + value.value + "'>" + value.mask + "</option>");
 								});
@@ -116,11 +110,22 @@
 									radios += '<label class="radio-inline"><input type="radio" name="'+ field.id +'" id="'+ field.id + "-" + count +'" value="'+ value.value +'"> '+ value.mask +'</label>';
 									count++;
 								});
-								$("form").prepend('<div class="form-group '+ field.id +'-div"><label for="'+ field.id +'-input">'+ field.name +'</label><br>'+ radios +'</div>');
+								$("form").prepend('<div data-tooltip="'+field.tooltip+'" class="form-group" id="'+ field.id +'-div"><label for="'+ field.id +'-input">'+ field.name +'</label><br>'+ radios +'</div>');
 								break;
 							case "calculated":
 								calculatedFields.push(field);
 								break;
+						}
+						if(field.tooltip != ""){
+							console.log("Kappa");
+							$("#" + field.id + "-div").mouseover(function(){
+								$("#tooltip-header").html(field.name);
+								$("#tooltip-body").html(field.tooltip);
+								$("#tooltip").show();
+							});
+							$("#" + field.id + "-div").mouseleave(function(){
+								$("#tooltip").hide();
+							});
 						}
 					}
 				});
@@ -159,29 +164,12 @@
 		<div class="row" id="container-form">
 			<div class="col-md-4">
 				<div class="container-fluid" id="info-left">
-					<div class="row" id="a_ativfisica-tooltip" style="display: none;">
+					<div class="row" id="tooltip" style="display: none;">
 						<div class="col-md-1"></div>
 						<div class="col-md-10">
 							<div class="panel panel-primary">
-								<div class="panel-heading">Atividade física no lazer</div>
-								<div class="panel-body">
-								</div>
-							</div>
-						</div>
-						<div class="col-md-1"></div>
-					</div>
-					<div class="row" id="a_bebexcessivo-tooltip" style="display: none;">
-						<div class="col-md-1"></div>
-						<div class="col-md-10">
-							<div class="panel panel-primary">
-								<div class="panel-heading">Bebedor excessivo</div>
-								<div class="panel-body">
-									<ul>
-										<li>Homens: 210g ou mais de álcool por semana</li>
-										<li>Mulheres: 140g ou mais de álcool por semana</li>
-									</ul>
-									<p>Obs: Uma lata de cerveja (350ml) possui em média 14g de álcool</p>
-								</div>
+								<div class="panel-heading" id="tooltip-header"></div>
+								<div class="panel-body" id="tooltip-body"></div>
 							</div>
 						</div>
 						<div class="col-md-1"></div>
