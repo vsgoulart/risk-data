@@ -26,6 +26,7 @@
 	<script type="text/javascript">
 		var data = {};
 		var calculatedFields = new Array();
+		var radioFields = new Array();
 
 		$(document).ready(function(){
 			$.ajax({
@@ -46,44 +47,65 @@
 			});
 
 			$("#submit-btn").click(function(){
-				$("#container-form").hide();
-				$(".loader").show();
-				$(".form-group input[type=text], .form-group input[type=number], .form-group select, .form-group input[type=radio]").each(function(){
-					var inputID = $(this).attr("id").split("-")[0]; //Divide ID do input[type=text] em dois e pega a primeira parte antes do do hífen
-					var inputValue = $(this).val().replace(',','.');
-					data[inputID] = inputValue + "";
-				});
-				data["a_hipertrig"] = "0";
+				var empty = false;
 
-				createEvalForCalculatedFields();
-				calculatedFields.forEach(function(field){
-					var inputID = field.id;
-					var inputValue = eval(field.formula);
-					data[inputID] = inputValue + "";
-				});
+				$(".form-group").removeClass("has-error");
 
-				console.log(data);
-
-				$.ajax({
-					type: "POST",
-					url: "/result",
-					contentType: 'application/json',
-					dataType: 'json',
-					data: JSON.stringify(data),
-					success: function(e){
-						console.log("success");
-						console.log(e);
-						$(".loader").hide();
-						$("#container-result").show();
-						if(e.result == "a-dm-true" || e.result == "a-dm-false" || e.result == "error")
-							$("#" + e.result).show();
-						else
-							$("#error").show();
-					},
-					failure: function(e){
-						console.log("fail");
+				$(".form-group input[type=text], .form-group input[type=number], .form-group select").each(function(){
+					if($(this).val() == ""){
+						empty = true;
+						$(this).parent().addClass("has-error");
 					}
 				});
+
+				radioFields.forEach(function(radioField){
+					if(!($("input:radio[name='" + radioField + "']").is(":checked"))){
+						empty = true;
+						$("input:radio[name='" + radioField + "']").parent().parent().addClass("has-error");
+					}
+				});
+
+				if(!empty)
+				{
+					$("#container-form").hide();
+					$(".loader").show();
+					$(".form-group input[type=text], .form-group input[type=number], .form-group select, .form-group input[type=radio]").each(function(){
+						var inputID = $(this).attr("id").split("-")[0]; //Divide ID do input[type=text] em dois e pega a primeira parte antes do do hífen
+						var inputValue = $(this).val().replace(',','.');
+						data[inputID] = inputValue + "";
+					});
+					data["a_hipertrig"] = "0";
+
+					createEvalForCalculatedFields();
+					calculatedFields.forEach(function(field){
+						var inputID = field.id;
+						var inputValue = eval(field.formula);
+						data[inputID] = inputValue + "";
+					});
+
+					console.log(data);
+
+					$.ajax({
+						type: "POST",
+						url: "/result",
+						contentType: 'application/json',
+						dataType: 'json',
+						data: JSON.stringify(data),
+						success: function(e){
+							console.log("success");
+							console.log(e);
+							$(".loader").hide();
+							$("#container-result").show();
+							if(e.result == "a-dm-true" || e.result == "a-dm-false" || e.result == "error")
+								$("#" + e.result).show();
+							else
+								$("#error").show();
+						},
+						failure: function(e){
+							console.log("fail");
+						}
+					});
+				}
 			});
 		});
 
@@ -112,13 +134,13 @@
 									count++;
 								});
 								$("form").prepend('<div data-tooltip="'+field.tooltip+'" class="form-group" id="'+ field.id +'-div"><label for="'+ field.id +'-input">'+ field.name +'</label><br>'+ radios +'</div>');
+								radioFields.push(field.id);
 								break;
 							case "calculated":
 								calculatedFields.push(field);
 								break;
 						}
 						if(field.tooltip != ""){
-							console.log("Kappa");
 							$("#" + field.id + "-div").mouseover(function(){
 								$("#tooltip-header").html(field.name);
 								$("#tooltip-body").html(field.tooltip);
