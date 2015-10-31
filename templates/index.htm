@@ -26,6 +26,7 @@
 	<script type="text/javascript">
 		var data = {};
 		var calculatedFields = new Array();
+		var categoryFields = new Array();
 		var radioFields = new Array();
 
 		$(document).ready(function(){
@@ -80,6 +81,18 @@
 					calculatedFields.forEach(function(field){
 						var inputID = field.id;
 						var inputValue = eval(field.formula);
+						data[inputID] = inputValue + "";
+					});
+
+					createEvalForCategoryFields();
+					categoryFields.forEach(function(field){
+						var inputID = field.id;
+						var inputValue = -1;
+						field.categories.forEach(function(category){
+							if(eval(category.eval)){
+								inputValue = category.value;
+							}
+						});
 						data[inputID] = inputValue + "";
 					});
 
@@ -139,6 +152,9 @@
 							case "calculated":
 								calculatedFields.push(field);
 								break;
+							case "category":
+								categoryFields.push(field);
+								break;
 						}
 						if(field.tooltip != ""){
 							$("#" + field.id + "-div").mouseover(function(){
@@ -165,6 +181,18 @@
 					console.log(field.formula);
 				});
 				console.log(field.formula);
+			});
+		}
+
+		var createEvalForCategoryFields = function(){
+			categoryFields.forEach(function(field){
+				field.categories.forEach(function(category){
+					field.vars.forEach(function(inputVar){
+						category.eval = category.eval.replace(RegExp(inputVar,"g"), $("#" + inputVar + "-input").val().replace(',','.'));
+						console.log(category.eval);
+					});
+				});
+				console.log(field.categories);
 			});
 		}
 	</script>
