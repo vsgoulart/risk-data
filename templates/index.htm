@@ -22,6 +22,36 @@
 			margin: 0; 
 		}
 
+		input[type='number'] {
+			-moz-appearance:textfield;
+		}
+
+		.number-input-container label, .text-input-container label{
+			padding-left: 0;
+			font-weight: 700;
+		}
+
+		label{
+			width: 50%;
+		}
+
+		#tooltip{
+			position: fixed;
+		}
+
+		.form-group{
+			text-align: left;
+		}
+
+		.unit-container{
+			width: auto;
+			height: auto;
+			font-weight: 700;
+			font-size: 24px;
+			position: relative;
+			bottom: 0;
+		}
+
 		.loader{font-size:90px;text-indent:-9999em;overflow:hidden;width:1em;height:1em;border-radius:50%;margin:72px auto;position:relative;-webkit-transform:translateZ(0);-ms-transform:translateZ(0);transform:translateZ(0);-webkit-animation:load6 1.7s infinite ease;animation:load6 1.7s infinite ease}@-webkit-keyframes load6{0%{-webkit-transform:rotate(0);transform:rotate(0);box-shadow:0 -.83em 0 -.4em #000,0 -.83em 0 -.42em #000,0 -.83em 0 -.44em #000,0 -.83em 0 -.46em #000,0 -.83em 0 -.477em #000}5%,95%{box-shadow:0 -.83em 0 -.4em #000,0 -.83em 0 -.42em #000,0 -.83em 0 -.44em #000,0 -.83em 0 -.46em #000,0 -.83em 0 -.477em #000}10%,59%{box-shadow:0 -.83em 0 -.4em #000,-.087em -.825em 0 -.42em #000,-.173em -.812em 0 -.44em #000,-.256em -.789em 0 -.46em #000,-.297em -.775em 0 -.477em #000}20%{box-shadow:0 -.83em 0 -.4em #000,-.338em -.758em 0 -.42em #000,-.555em -.617em 0 -.44em #000,-.671em -.488em 0 -.46em #000,-.749em -.34em 0 -.477em #000}38%{box-shadow:0 -.83em 0 -.4em #000,-.377em -.74em 0 -.42em #000,-.645em -.522em 0 -.44em #000,-.775em -.297em 0 -.46em #000,-.82em -.09em 0 -.477em #000}100%{-webkit-transform:rotate(360deg);transform:rotate(360deg);box-shadow:0 -.83em 0 -.4em #000,0 -.83em 0 -.42em #000,0 -.83em 0 -.44em #000,0 -.83em 0 -.46em #000,0 -.83em 0 -.477em #000}}@keyframes load6{0%{-webkit-transform:rotate(0);transform:rotate(0);box-shadow:0 -.83em 0 -.4em #000,0 -.83em 0 -.42em #000,0 -.83em 0 -.44em #000,0 -.83em 0 -.46em #000,0 -.83em 0 -.477em #000}5%,95%{box-shadow:0 -.83em 0 -.4em #000,0 -.83em 0 -.42em #000,0 -.83em 0 -.44em #000,0 -.83em 0 -.46em #000,0 -.83em 0 -.477em #000}10%,59%{box-shadow:0 -.83em 0 -.4em #000,-.087em -.825em 0 -.42em #000,-.173em -.812em 0 -.44em #000,-.256em -.789em 0 -.46em #000,-.297em -.775em 0 -.477em #000}20%{box-shadow:0 -.83em 0 -.4em #000,-.338em -.758em 0 -.42em #000,-.555em -.617em 0 -.44em #000,-.671em -.488em 0 -.46em #000,-.749em -.34em 0 -.477em #000}38%{box-shadow:0 -.83em 0 -.4em #000,-.377em -.74em 0 -.42em #000,-.645em -.522em 0 -.44em #000,-.775em -.297em 0 -.46em #000,-.82em -.09em 0 -.477em #000}100%{-webkit-transform:rotate(360deg);transform:rotate(360deg);box-shadow:0 -.83em 0 -.4em #000,0 -.83em 0 -.42em #000,0 -.83em 0 -.44em #000,0 -.83em 0 -.46em #000,0 -.83em 0 -.477em #000}}
 	</style>
 	<script type="text/javascript">
@@ -31,6 +61,9 @@
 		var radioFields = new Array();
 
 		$(document).ready(function(){
+			var img = new Image();
+    		img.src = "/static/img/modelo-masculino.gif";
+
 			$.ajax({
 				type: "GET",
 				url: "/fields",
@@ -126,15 +159,19 @@
 			if(fieldsArray.length > 0){
 				fieldsArray.forEach(function(field){
 					if(field.active){
+						var tooltipIcon = "";
+
+						if(field.tooltip != "")
+							tooltipIcon = field.tooltipIcon;
 						switch(field.type){
 							case "text":
-								$("form").prepend('<div data-tooltip="'+field.tooltip+'" class="form-group" id="'+ field.id +'-div"><input type="text" class="form-control" id="'+ field.id +'-input" placeholder="'+ field.name +'"></div>');
+								$("form").prepend('<div data-tooltip="'+field.tooltip+'" class="form-group text-input-container" id="'+ field.id +'-div"><input type="text" class="form-control" id="'+ field.id +'-input"></div>');
 								break;
 							case "number":
-								$("form").prepend('<div data-tooltip="'+field.tooltip+'" class="form-group" id="'+ field.id +'-div"><input type="number" step="0.01" min="0" class="form-control" id="'+ field.id +'-input" placeholder="'+ field.name +'"></div>');
+								$("form").prepend('<div data-tooltip="'+field.tooltip+'" class="form-group number-input-container" id="'+ field.id +'-div"><label class="radio-inline">'+ field.name + tooltipIcon  +'<input type="number" step="1" min="0" class="form-control" id="'+ field.id +'-input"></label><span class="unit-container">'+ field.unit +'</span></div>');
 								break;
 							case "select":
-								$("form").prepend('<div data-tooltip="'+field.tooltip+'" class="form-group" id="'+ field.id +'-div"><label for="'+ field.id +'-input">'+ field.name +'</label><select class="form-control" id="'+ field.id +'-input"></select></div>');
+								$("form").prepend('<div data-tooltip="'+field.tooltip+'" class="form-group" id="'+ field.id +'-div"><label for="'+ field.id +'-input">'+ field.name + tooltipIcon  +'</label><select class="form-control" id="'+ field.id +'-input"></select></div>');
 								field.values.forEach(function(value){
 									$("#" + field.id + "-input").append("<option value='" + value.value + "'>" + value.mask + "</option>");
 								});
@@ -143,10 +180,10 @@
 								var count = 0;
 								var radios = "";
 								field.values.forEach(function(value){
-									radios += '<label class="radio-inline"><input type="radio" name="'+ field.id +'" id="'+ field.id + "-" + count +'" value="'+ value.value +'"> '+ value.mask +'</label>';
+									radios += '<label class="radio-inline"><input type="radio" name="'+ field.id +'" id="'+ field.id + "-" + count +'" value="'+ value.value +'"> '+ value.mask +'</label><br>';
 									count++;
 								});
-								$("form").prepend('<div data-tooltip="'+field.tooltip+'" class="form-group" id="'+ field.id +'-div"><label for="'+ field.id +'-input">'+ field.name +'</label><br>'+ radios +'</div>');
+								$("form").prepend('<div data-tooltip="'+field.tooltip+'" class="form-group" id="'+ field.id +'-div"><label for="'+ field.id +'-input">'+ field.name + tooltipIcon  +'</label><br>'+ radios +'</div>');
 								radioFields.push(field.id);
 								break;
 							case "calculated":
@@ -213,7 +250,7 @@
 	</nav>
 	<div class="container-fluid">
 		<div class="row" id="container-form">
-			<div class="col-md-4">
+			<div class="col-md-5">
 				<div class="container-fluid" id="info-left">
 					<div class="row" id="tooltip" style="display: none;">
 						<div class="col-md-1"></div>
@@ -227,7 +264,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-md-4">
+			<div class="col-md-5">
 				<form class="form-horizontal">
 					<div class="form-group" id="button-container">
 						<button type="button" class="btn btn-default" id="submit-btn">Calcular</button>
@@ -235,7 +272,7 @@
 					</div>
 				</form>
 			</div>
-			<div class="col-md-4"></div>
+			<div class="col-md-2"></div>
 		</div>
 		<div class="loader" style="display: none;">Loading...</div>
 		<div class="row" id="container-result" style="display: none;">
