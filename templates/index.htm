@@ -2,7 +2,7 @@
 <html lang="pt-br">
 <head>
 	<meta charset="utf-8">
-	<title>risk-data</title>
+	<title>Análise de risco de diabetes</title>
 	<link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
 	<link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap-theme.min.css') }}">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
@@ -30,26 +30,19 @@
 			padding-left: 0;
 			font-weight: 700;
 		}
-
 		label{
-			width: 50%;
+			width: 75%;
 		}
 
 		#tooltip{
 			position: fixed;
 		}
 
-		.form-group{
-			text-align: left;
+		.input-group-addon{
+			min-width: 50px;
 		}
-
-		.unit-container{
-			width: auto;
-			height: auto;
-			font-weight: 700;
-			font-size: 24px;
-			position: relative;
-			bottom: 0;
+		.groups{
+			padding-left: 50px;
 		}
 
 		.loader{font-size:90px;text-indent:-9999em;overflow:hidden;width:1em;height:1em;border-radius:50%;margin:72px auto;position:relative;-webkit-transform:translateZ(0);-ms-transform:translateZ(0);transform:translateZ(0);-webkit-animation:load6 1.7s infinite ease;animation:load6 1.7s infinite ease}@-webkit-keyframes load6{0%{-webkit-transform:rotate(0);transform:rotate(0);box-shadow:0 -.83em 0 -.4em #000,0 -.83em 0 -.42em #000,0 -.83em 0 -.44em #000,0 -.83em 0 -.46em #000,0 -.83em 0 -.477em #000}5%,95%{box-shadow:0 -.83em 0 -.4em #000,0 -.83em 0 -.42em #000,0 -.83em 0 -.44em #000,0 -.83em 0 -.46em #000,0 -.83em 0 -.477em #000}10%,59%{box-shadow:0 -.83em 0 -.4em #000,-.087em -.825em 0 -.42em #000,-.173em -.812em 0 -.44em #000,-.256em -.789em 0 -.46em #000,-.297em -.775em 0 -.477em #000}20%{box-shadow:0 -.83em 0 -.4em #000,-.338em -.758em 0 -.42em #000,-.555em -.617em 0 -.44em #000,-.671em -.488em 0 -.46em #000,-.749em -.34em 0 -.477em #000}38%{box-shadow:0 -.83em 0 -.4em #000,-.377em -.74em 0 -.42em #000,-.645em -.522em 0 -.44em #000,-.775em -.297em 0 -.46em #000,-.82em -.09em 0 -.477em #000}100%{-webkit-transform:rotate(360deg);transform:rotate(360deg);box-shadow:0 -.83em 0 -.4em #000,0 -.83em 0 -.42em #000,0 -.83em 0 -.44em #000,0 -.83em 0 -.46em #000,0 -.83em 0 -.477em #000}}@keyframes load6{0%{-webkit-transform:rotate(0);transform:rotate(0);box-shadow:0 -.83em 0 -.4em #000,0 -.83em 0 -.42em #000,0 -.83em 0 -.44em #000,0 -.83em 0 -.46em #000,0 -.83em 0 -.477em #000}5%,95%{box-shadow:0 -.83em 0 -.4em #000,0 -.83em 0 -.42em #000,0 -.83em 0 -.44em #000,0 -.83em 0 -.46em #000,0 -.83em 0 -.477em #000}10%,59%{box-shadow:0 -.83em 0 -.4em #000,-.087em -.825em 0 -.42em #000,-.173em -.812em 0 -.44em #000,-.256em -.789em 0 -.46em #000,-.297em -.775em 0 -.477em #000}20%{box-shadow:0 -.83em 0 -.4em #000,-.338em -.758em 0 -.42em #000,-.555em -.617em 0 -.44em #000,-.671em -.488em 0 -.46em #000,-.749em -.34em 0 -.477em #000}38%{box-shadow:0 -.83em 0 -.4em #000,-.377em -.74em 0 -.42em #000,-.645em -.522em 0 -.44em #000,-.775em -.297em 0 -.46em #000,-.82em -.09em 0 -.477em #000}100%{-webkit-transform:rotate(360deg);transform:rotate(360deg);box-shadow:0 -.83em 0 -.4em #000,0 -.83em 0 -.42em #000,0 -.83em 0 -.44em #000,0 -.83em 0 -.46em #000,0 -.83em 0 -.477em #000}}
@@ -64,6 +57,12 @@
 			var img = new Image();
     		img.src = "/static/img/modelo-masculino.gif";
 
+    		$("#start-btn").click(function(){
+    			$("#start").fadeOut("slow", function(){
+    				$("#main-container").fadeIn("slow");
+    			});
+    		});
+
 			$.ajax({
 				type: "GET",
 				url: "/fields",
@@ -74,7 +73,7 @@
 					console.log("success");
 					fieldsJSON = JSON.parse(e.data);
 					console.log(fieldsJSON);
-					createFields(fieldsJSON.fields);
+					createFields(fieldsJSON.groups);
 				},
 				failure: function(e){
 					console.log("fail");
@@ -157,53 +156,56 @@
 
 		var createFields = function(fieldsArray){
 			if(fieldsArray.length > 0){
-				fieldsArray.forEach(function(field){
-					if(field.active){
-						var tooltipIcon = "";
+				fieldsArray.forEach(function(groupFields){
+					$("form").prepend('<div class="panel panel-default"><div class="panel-heading"><h3 class="panel-title">'+ groupFields.title +'</h3></div><div class="panel-body groups" id="'+groupFields.id+'"></div></div>');
+					groupFields.fields.forEach(function(field){
+						if(field.active){
+							var tooltipIcon = "";
 
-						if(field.tooltip != "")
-							tooltipIcon = field.tooltipIcon;
-						switch(field.type){
-							case "text":
-								$("form").prepend('<div data-tooltip="'+field.tooltip+'" class="form-group text-input-container" id="'+ field.id +'-div"><input type="text" class="form-control" id="'+ field.id +'-input"></div>');
-								break;
-							case "number":
-								$("form").prepend('<div data-tooltip="'+field.tooltip+'" class="form-group number-input-container" id="'+ field.id +'-div"><label class="radio-inline">'+ field.name + tooltipIcon  +'<input type="number" step="1" min="0" class="form-control" id="'+ field.id +'-input"></label></div>');
-								break;
-							case "select":
-								$("form").prepend('<div data-tooltip="'+field.tooltip+'" class="form-group" id="'+ field.id +'-div"><label for="'+ field.id +'-input">'+ field.name + tooltipIcon  +'</label><select class="form-control" id="'+ field.id +'-input"></select></div>');
-								field.values.forEach(function(value){
-									$("#" + field.id + "-input").append("<option value='" + value.value + "'>" + value.mask + "</option>");
+							if(field.tooltip != "")
+								tooltipIcon = field.tooltipIcon;
+							switch(field.type){
+								case "text":
+									$("#"+groupFields.id).prepend('<div data-tooltip="'+field.tooltip+'" class="form-group text-input-container" id="'+ field.id +'-div"><input type="text" class="form-control" id="'+ field.id +'-input"></div>');
+									break;
+								case "number":
+									$("#"+groupFields.id).prepend('<div data-tooltip="'+field.tooltip+'" class="form-group number-input-container" id="'+ field.id +'-div"><label class="radio-inline">'+ field.name + tooltipIcon  +'<div class="input-group"><input type="number" step="1" min="0" class="form-control" id="'+ field.id +'-input"><span class="input-group-addon">'+field.unit+'</span></div></label></div>');
+									break;
+								case "select":
+									$("#"+groupFields.id).prepend('<div data-tooltip="'+field.tooltip+'" class="form-group" id="'+ field.id +'-div"><label for="'+ field.id +'-input">'+ field.name + tooltipIcon  +'</label><select class="form-control" id="'+ field.id +'-input"></select></div>');
+									field.values.forEach(function(value){
+										$("#" + field.id + "-input").append("<option value='" + value.value + "'>" + value.mask + "</option>");
+									});
+									break;
+								case "radio":
+									var count = 0;
+									var radios = "";
+									field.values.forEach(function(value){
+										radios += '<label class="radio-inline"><input type="radio" name="'+ field.id +'" id="'+ field.id + "-" + count +'" value="'+ value.value +'"> '+ value.mask +'</label><br>';
+										count++;
+									});
+									$("#"+groupFields.id).prepend('<div data-tooltip="'+field.tooltip+'" class="form-group" id="'+ field.id +'-div"><label for="'+ field.id +'-input">'+ field.name + tooltipIcon  +'</label><br>'+ radios +'</div>');
+									radioFields.push(field.id);
+									break;
+								case "calculated":
+									calculatedFields.push(field);
+									break;
+								case "category":
+									categoryFields.push(field);
+									break;
+							}
+							if(field.tooltip != ""){
+								$("#" + field.id + "-div").mouseover(function(){
+									$("#tooltip-header").html(field.name);
+									$("#tooltip-body").html(field.tooltip);
+									$("#tooltip").show();
 								});
-								break;
-							case "radio":
-								var count = 0;
-								var radios = "";
-								field.values.forEach(function(value){
-									radios += '<label class="radio-inline"><input type="radio" name="'+ field.id +'" id="'+ field.id + "-" + count +'" value="'+ value.value +'"> '+ value.mask +'</label><br>';
-									count++;
+								$("#" + field.id + "-div").mouseleave(function(){
+									$("#tooltip").hide();
 								});
-								$("form").prepend('<div data-tooltip="'+field.tooltip+'" class="form-group" id="'+ field.id +'-div"><label for="'+ field.id +'-input">'+ field.name + tooltipIcon  +'</label><br>'+ radios +'</div>');
-								radioFields.push(field.id);
-								break;
-							case "calculated":
-								calculatedFields.push(field);
-								break;
-							case "category":
-								categoryFields.push(field);
-								break;
+							}
 						}
-						if(field.tooltip != ""){
-							$("#" + field.id + "-div").mouseover(function(){
-								$("#tooltip-header").html(field.name);
-								$("#tooltip-body").html(field.tooltip);
-								$("#tooltip").show();
-							});
-							$("#" + field.id + "-div").mouseleave(function(){
-								$("#tooltip").hide();
-							});
-						}
-					}
+					})
 				});
 			}else{
 				$("#button-container").hide();
@@ -244,13 +246,29 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="#">risk-data</a>
+				<a class="navbar-brand" href="#">Análise de risco de diabetes</a>
 			</div>
 		</div>
 	</nav>
-	<div class="container-fluid">
+	<div class="container-fluid" id="start">
+		<div class="row">
+			<div class="col-md-3"></div>
+			<div class="col-md-6">
+				<h4>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec finibus massa eu feugiat luctus. Nullam ultricies id tortor sit amet fermentum. Cras vulputate euismod dapibus. Morbi maximus convallis justo, quis pretium justo porta consectetur. Ut non mattis erat, in accumsan lectus. Etiam et ligula sit amet felis dapibus pellentesque. In risus purus, finibus non dui in, rhoncus lacinia sem. Sed nisl diam, tempus eu mi in, varius accumsan odio. Sed ac orci eros. In eu urna nec ipsum gravida semper nec at mi. Phasellus finibus mi ligula, eget aliquam nunc imperdiet eget.</h4>
+				<div class="row">
+					<div class="col-md-5"></div>
+					<div class="col-md-2">
+						<button type="button" class="btn btn-primary" id="start-btn">Responder</button>
+					</div>
+					<div class="col-md-5"></div>
+				</div>
+			</div>
+			<div class="col-md-3"></div>
+		</div>
+	</div>
+	<div class="container-fluid" id="main-container" style="display: none;">
 		<div class="row" id="container-form">
-			<div class="col-md-5">
+			<div class="col-md-4">
 				<div class="container-fluid" id="info-left">
 					<div class="row" id="tooltip" style="display: none;">
 						<div class="col-md-1"></div>
@@ -264,15 +282,21 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-md-5">
+			<div class="col-md-4">
 				<form class="form-horizontal">
 					<div class="form-group" id="button-container">
-						<button type="button" class="btn btn-default" id="submit-btn">Calcular</button>
-						<button type="reset" class="btn btn-default">Limpar</button>
+						<div class="row">
+							<div class="col-md-5"></div>
+							<div class="col-md-4">
+								<button type="button" class="btn btn-default" id="submit-btn">Calcular</button>
+								<button type="reset" class="btn btn-default">Limpar</button>
+							</div>
+							<div class="col-md-3"></div>
+						</div>
 					</div>
 				</form>
 			</div>
-			<div class="col-md-2"></div>
+			<div class="col-md-4"></div>
 		</div>
 		<div class="loader" style="display: none;">Loading...</div>
 		<div class="row" id="container-result" style="display: none;">
