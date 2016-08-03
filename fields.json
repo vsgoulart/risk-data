@@ -1,1 +1,496 @@
-{"groups":[{"title":"Outros","id":"outr","fields":[{"id":"a_escolar","name":"Escolaridade","tooltip":"","type":"radio","active":true,"values":[{"value":"1","mask":"Fundamental incompleto"},{"value":"2","mask":"Fundamental completo"},{"value":"3","mask":"Médio completo"},{"value":"4","mask":"Superior completo"}]}]},{"title":"Hábitos comportamentais","id":"hab-comp","fields":[{"id":"a_ativfisica","name":"Atividade física no lazer","tooltip":"","type":"radio","active":true,"values":[{"value":"2","mask":"Sim"},{"value":"1","mask":"Não"}]},{"id":"a_bebexcessivo","name":"Bebedor excessivo","tooltipIcon":" <span class=\"glyphicon glyphicon-info-sign\" aria-hidden=\"true\"></span>","tooltip":"<ul><li>Homens: 210g ou mais de álcool por semana</li><li>Mulheres: 140g ou mais de álcool por semana</li></ul><p>Obs: Uma lata de cerveja (350ml) possui em média 14g de álcool</p>","type":"radio","active":true,"values":[{"value":"1","mask":"Sim"},{"value":"0","mask":"Não"}]},{"id":"diea133","name":"Consome café","tooltip":"","type":"radio","active":true,"values":[{"value":"1","mask":"Sim, com cafeína"},{"value":"2","mask":"Sim, descafeinado"},{"value":"0","mask":"Não"}]}]},{"title":"Medidas antroprométricas","id":"med-antr","fields":[{"id":"rcta8","name":"Sexo","tooltip":"","type":"radio","active":true,"values":[{"value":"1","mask":"Masculino"},{"value":"2","mask":"Feminino"}]},{"id":"a_gidade","name":"Grupo de idade do participante","tooltip":"","type":"radio","active":true,"values":[{"value":"1","mask":"até 44 anos"},{"value":"2","mask":"45 a 54 anos"},{"value":"3","mask":"55 a 54 anos"},{"value":"4","mask":"65 anos ou mais"}]},{"id":"peso","name":"Peso","tooltip":"","type":"number","unit":"kg","active":true},{"id":"altura","name":"Altura","tooltip":"","type":"number","unit":"m","active":true},{"id":"a_imc1","name":"Índice de Massa Corporal (kg/m²)","tooltip":"","type":"calculated","active":true,"vars":["peso","altura"],"formula":"peso/Math.pow(altura, 2)"},{"id":"a_cint","name":"Circunferência da cintura","tooltip":"<img src='static/img/modelo-masculino.gif'>","tooltipIcon":" <span class=\"glyphicon glyphicon-info-sign\" aria-hidden=\"true\"></span>","type":"number","unit":"cm","active":true},{"id":"quadril","name":"Circunferência do quadril","tooltip":"<img src='static/img/modelo-masculino.gif'>","tooltipIcon":" <span class=\"glyphicon glyphicon-info-sign\" aria-hidden=\"true\"></span>","type":"number","unit":"cm","active":true},{"id":"a_rcq","name":"Relação cintura-quadril","tooltip":"","type":"calculated","active":true,"vars":["a_cint","quadril"],"formula":"a_cint/quadril"}]},{"title":"Histórico médico","id":"hist-med","fields":[{"id":"a_sfcvdhard","name":"Doença cardiovascular autorreferida","tooltip":"","type":"radio","active":true,"values":[{"value":"1","mask":"Sim"},{"value":"0","mask":"Não"}]},{"id":"a_has2","name":"Presença de hipertensão arterial sistêmica","tooltip":"","type":"radio","active":true,"values":[{"value":"1","mask":"Sim"},{"value":"0","mask":"Não"}]},{"id":"hfda11","name":"Diabetes na familia","tooltip":"","type":"radio","active":true,"values":[{"value":"1","mask":"Sim"},{"value":"0","mask":"Não/Não lembro"}]}]}]}
+{
+   "groups": [
+	   {
+         "title": "Histórico médico",
+         "id": "hist-med",
+         "fields": [
+            {
+               "id": "hfda11",
+               "name": "Sua mãe, seu pai ou algum de seus irmãos ou irmãs teve ou tem diabetes (açúcar alto no sangue e/ou presente na urina)?",
+               "tooltip": "",
+               "type": "radio",
+               "active": true,
+               "values": [
+                  {
+                     "value": "1",
+                     "mask": "Sim"
+                  },
+                  {
+                     "value": "0",
+                     "mask": "Não/Não lembro"
+                  }
+               ]
+            },
+            {
+               "id": "a_medanthipert",
+               "name": "Utiliza de medicamento anti-hipertensivo?",
+               "tooltip": "",
+               "type": "radio",
+               "active": true,
+               "values": [
+                  {
+                     "value": "1",
+                     "mask": "Sim"
+                  },
+                  {
+                     "value": "0",
+                     "mask": "Não/Não lembro"
+                  }
+               ]
+            },
+            {
+               "id": "a_sfhfprem",
+               "name": "Revascularização autorreferida",
+               "tooltip": "",
+               "type": "category",
+               "active": true,
+               "vars": [
+                  "hmpa14",
+                  "hmpa15a"
+               ],
+               "categories": [
+                  {
+                     "value": "0",
+                     "eval": "hmpa14==0||(hmpa14==1&&hmpa15a>=50)"
+                  },
+                  {
+                     "value": "1",
+                     "eval": "hmpa14==1&&hmpa15a<=50"
+                  }
+               ]
+            },
+            {
+               "id": "hmpa15a",
+               "name": "Com que idade um médico lhe informou, pela primeira vez, que você tinha ou tem insuficiência cardíaca (coração grande ou dilatado)?",
+               "tooltip": "",
+               "type": "number",
+               "unit": "anos",
+               "active": true
+            },
+            {
+               "id": "hmpa14",
+               "name": "Você tem insuficiência cardíaca (coração grande ou dilatado)?",
+               "tooltip": "",
+               "type": "radio",
+               "active": true,
+               "values": [
+                  {
+                     "value": "1",
+                     "mask": "Sim"
+                  },
+                  {
+                     "value": "0",
+                     "mask": "Não/Não lembro"
+                  }
+               ]
+            },
+            {
+               "id": "a_medredlip",
+               "name": "Utiliza medicamentos hipolipemiantes (medicamento para controle de colesterol)?",
+               "tooltip": "",
+               "type": "radio",
+               "active": true,
+               "values": [
+                  {
+                     "value": "0",
+                     "mask": "Não/Não lembro"
+                  },
+                  {
+                     "value": "1",
+                     "mask": "Uso de estatinas"
+                  },
+                  {
+                     "value": "2",
+                     "mask": "Uso de outros"
+                  },
+                  {
+                     "value": "3",
+                     "mask": "Mais de um tipo"
+                  }
+               ]
+            }
+         ]
+      },
+      {
+         "title": "Hábitos comportamentais",
+         "id": "hab-comp",
+         "fields": [
+            {
+               "id": "diea133",
+               "name": "Consome café?",
+               "tooltip": "",
+               "type": "radio",
+               "active": true,
+               "values": [
+                  {
+                     "value": "1",
+                     "mask": "Sim, com cafeína"
+                  },
+                  {
+                     "value": "2",
+                     "mask": "Sim, descafeinado"
+                  },
+                  {
+                     "value": "0",
+                     "mask": "Não"
+                  }
+               ]
+            },
+            {
+               "id": "a_bebexcessivo",
+               "name": "Bebedor excessivo? (Para homens 210g ou mais de álcool por semana e para mulheres 140g ou mais de álcool por semana. Obs: Uma lata de cerveja (350ml) possui em média 14g de álcool)",
+               "tooltipIcon": " <span class=\"glyphicon glyphicon-info-sign\" aria-hidden=\"true\"></span>",
+               "tooltip": "<ul><li>Homens: 210g ou mais de álcool por semana</li><li>Mulheres: 140g ou mais de álcool por semana</li></ul><p>Obs: Uma lata de cerveja (350ml) possui em média 14g de álcool</p>",
+               "type": "radio",
+               "active": true,
+               "values": [
+                  {
+                     "value": "1",
+                     "mask": "Sim"
+                  },
+                  {
+                     "value": "0",
+                     "mask": "Não"
+                  }
+               ]
+            },
+            {
+               "id": "a_ativfisica",
+               "name": "Atividade física no lazer",
+               "tooltip": "",
+               "type": "category",
+               "active": true,
+               "values": [
+                  {
+                     "value": "2",
+                     "mask": "Sim"
+                  },
+                  {
+                     "value": "1",
+                     "mask": "Não"
+                  }
+               ]
+            },
+			{
+               "id": "afia2a",
+               "name": "Nos dias em que você faz essas caminhadas, quanto tempo no total elas duram por dia?",
+               "tooltip": "",
+               "type": "number",
+               "unit": "min",
+               "active": true
+            },
+            {
+               "id": "afia1",
+               "name": "Quantos dias por semana você faz caminhadas no seu tempo livre?",
+               "tooltip": "",
+               "type": "number",
+               "unit": "dias",
+               "active": true
+            },
+			{
+               "id": "afia4a",
+               "name": "Nos dias em que você faz essas atividades físicas FORTES, quanto tempo no total elas duram por dia?",
+               "tooltipIcon": " <span class=\"glyphicon glyphicon-info-sign\" aria-hidden=\"true\"></span>",
+               "tooltip": "Atividades físicas fortes são as que exigem grande esforço físico e que fazem respirar muito mais rápido que o normal.",
+               "type": "number",
+               "unit": "min",
+               "active": true
+            },
+            {
+               "id": "afia3",
+               "name": "Quantos dias por semana você faz atividades físicas FORTES no seu tempo livre? Por ex.: correr, fazer ginástica de academia, pedalar em ritmo rápido, praticar esportes competitivos, etc.",
+               "tooltipIcon": " <span class=\"glyphicon glyphicon-info-sign\" aria-hidden=\"true\"></span>",
+               "tooltip": "Atividades físicas fortes são as que exigem grande esforço físico e que fazem respirar muito mais rápido que o normal.",
+               "type": "number",
+               "unit": "dias",
+               "active": true
+            },
+			{
+               "id": "afia6a",
+               "name": "Nos dias em que você faz essas atividades físicas MÉDIAS, quanto tempo no total elas duram por dia?",
+               "tooltipIcon": " <span class=\"glyphicon glyphicon-info-sign\" aria-hidden=\"true\"></span>",
+               "tooltip": "Atividades físicas médias são as que exigem esforço físico médio e que fazem respirar um pouco mais rápido que o normal.",
+               "type": "number",
+               "unit": "min",
+               "active": true
+            },
+            {
+               "id": "afia5",
+               "name": "Quantos dias por semana você faz atividades físicas MÉDIAS fora as caminhadas no seu tempo livre? Por ex.: nadar ou pedalar em ritmo médio, praticar esportes por diversão, etc.",
+               "tooltipIcon": " <span class=\"glyphicon glyphicon-info-sign\" aria-hidden=\"true\"></span>",
+               "tooltip": "Atividades físicas médias são as que exigem esforço físico médio e que fazem respirar um pouco mais rápido que o normal.",
+               "type": "number",
+               "unit": "dias",
+               "active": true
+            },
+            {
+               "id": "a_binge",
+               "name": "Bebedor excessivo esporádico",
+               "tooltip": "",
+               "type": "category",
+               "active": true,
+               "vars": [
+                  "cala1",
+                  "cala2",
+                  "cala10"
+               ],
+               "categories": [
+                  {
+                     "value": "0",
+                     "eval": "cala1==0&&cala2==0||(cala1==1&&cala2==1&&(cala10==5||cala10==6))"
+                  },
+                  {
+                     "value": "1",
+                     "eval": "cala1==1&&cala2==1&&(cala10>=1&&cala10<=4)"
+                  }
+               ]
+            },
+            {
+               "id": "cala1",
+               "name": "Já consumiu bebidas alcoólicas?",
+               "tooltip": "",
+               "type": "radio",
+               "active": true,
+               "values": [
+                  {
+                     "value": "1",
+                     "mask": "Sim"
+                  },
+                  {
+                     "value": "0",
+                     "mask": "Não"
+                  }
+               ]
+            },
+            {
+               "id": "cala2",
+               "name": "Atualmente consome bebidas alcoólicas?",
+               "tooltip": "",
+               "type": "radio",
+               "active": true,
+               "values": [
+                  {
+                     "value": "1",
+                     "mask": "Sim"
+                  },
+                  {
+                     "value": "0",
+                     "mask": "Não"
+                  }
+               ]
+            },
+            {
+               "id": "cala10",
+               "name": "Nos ÚLTIMOS 12 MESES, com que freqüência consumiu 5 ou mais doses de qualquer tipo de bebida alcoólica em um período de 2 horas?",
+               "tooltipIcon": " <span class=\"glyphicon glyphicon-info-sign\" aria-hidden=\"true\"></span>",
+               "tooltip": "<p>1 dose = 1 lata/long neck de cerveja (350 ml)</p><p>OU 1 taça de vinho (120-150 ml)</p><p>OU 1 dose de bebida destilada (whisky, cachaça, vodka, etc)</p><br><p>2 doses = 1 garrafa de cerveja (620ml)</p><p>OU 1 dose dupla de bebida destilada (whisky, cachaça, vodka, etc)</p>",
+               "type": "radio",
+               "active": true,
+               "values": [
+                  {
+                     "value": "1",
+                     "mask": "Duas vezes por dia ou mais"
+                  },
+                  {
+                     "value": "2",
+                     "mask": "Praticamente todos os dias"
+                  },
+                  {
+                     "value": "3",
+                     "mask": "Uma a duas vezes por semana"
+                  },
+                  {
+                     "value": "4",
+                     "mask": "Duas ou três vezes por mês"
+                  },
+                  {
+                     "value": "5",
+                     "mask": "Somente em ocasiões especiais"
+                  },
+                  {
+                     "value": "6",
+                     "mask": "Nunca"
+                  }
+               ]
+            }
+         ]
+      },
+	  {
+         "title": "Escolaridade",
+         "id": "outr",
+         "fields": [
+            {
+               "id": "a_escolar",
+               "name": "Qual o seu nível de escolaridade?",
+               "tooltip": "",
+               "type": "radio",
+               "active": true,
+               "values": [
+                  {
+                     "value": "1",
+                     "mask": "Fundamental incompleto"
+                  },
+                  {
+                     "value": "2",
+                     "mask": "Fundamental completo"
+                  },
+                  {
+                     "value": "3",
+                     "mask": "Médio completo"
+                  },
+                  {
+                     "value": "4",
+                     "mask": "Superior completo"
+                  }
+               ]
+            }
+         ]
+      },
+      {
+         "title": "Medidas antroprométricas",
+         "id": "med-antr",
+         "fields": [
+            {
+               "id": "a_cint",
+               "name": "Circunferência da cintura",
+               "tooltip": "<img src='static/img/modelo-masculino.gif'>",
+               "tooltipIcon": " <span class=\"glyphicon glyphicon-info-sign\" aria-hidden=\"true\"></span>",
+               "type": "number",
+               "unit": "cm",
+               "active": true
+            },
+            {
+               "id": "quadril",
+               "name": "Circunferência do quadril",
+               "tooltip": "<img src='static/img/modelo-masculino.gif'>",
+               "tooltipIcon": " <span class=\"glyphicon glyphicon-info-sign\" aria-hidden=\"true\"></span>",
+               "type": "number",
+               "unit": "cm",
+               "active": true
+            },
+            {
+               "id": "rcta8",
+               "name": "Sexo",
+               "tooltip": "",
+               "type": "radio",
+               "active": true,
+               "values": [
+                  {
+                     "value": "1",
+                     "mask": "Masculino"
+                  },
+                  {
+                     "value": "2",
+                     "mask": "Feminino"
+                  }
+               ]
+            },
+            {
+               "id": "a_imc1",
+               "name": "Índice de Massa Corporal (kg/m²)",
+               "tooltip": "",
+               "type": "calculated",
+               "active": true,
+               "vars": [
+                  "peso",
+                  "altura"
+               ],
+               "formula": "peso/Math.pow(altura, 2)"
+            },
+            {
+               "id": "peso",
+               "name": "Peso",
+               "tooltip": "",
+               "type": "number",
+               "unit": "kg",
+               "active": true
+            },
+            {
+               "id": "altura",
+               "name": "Altura",
+               "tooltip": "",
+               "type": "number",
+               "unit": "m",
+               "active": true
+            },
+            {
+               "id": "a_rcq",
+               "name": "Relação cintura-quadril",
+               "tooltip": "",
+               "type": "calculated",
+               "active": true,
+               "vars": [
+                  "a_cint",
+                  "quadril"
+               ],
+               "formula": "a_cint/quadril"
+            },
+            {
+               "id": "idade",
+               "name": "Idade",
+               "tooltip": "",
+               "type": "number",
+               "unit": "anos",
+               "active": true
+            },
+            {
+               "id": "a_gidade",
+               "name": "Grupo de idade do participante",
+               "tooltip": "",
+               "type": "category",
+               "active": true,
+               "vars": [
+                  "idade"
+               ],
+               "categories": [
+                  {
+                     "value": "1",
+                     "eval": "idade<=44"
+                  },
+                  {
+                     "value": "2",
+                     "eval": "45>=idade<=54"
+                  },
+                  {
+                     "value": "3",
+                     "eval": "55>=idade<=64"
+                  },
+                  {
+                     "value": "4",
+                     "eval": "idade>=65"
+                  }
+               ]
+            },
+            {
+               "id": "a_imc2",
+               "name": "IMC com 4 categorias",
+               "tooltip": "",
+               "type": "category",
+               "active": true,
+               "vars": [
+                  "peso",
+                  "altura"
+               ],
+               "categories": [
+                  {
+                     "value": "1",
+                     "eval": "0<peso/Math.pow(altura, 2)<18.5"
+                  },
+                  {
+                     "value": "2",
+                     "eval": "18.5<=peso/Math.pow(altura, 2)<25"
+                  },
+                  {
+                     "value": "3",
+                     "eval": "25<=peso/Math.pow(altura, 2)<30"
+                  },
+                  {
+                     "value": "4",
+                     "eval": "peso/Math.pow(altura, 2)>=30"
+                  }
+               ]
+            }
+         ]
+      }
+   ]
+}
